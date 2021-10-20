@@ -11,17 +11,24 @@ class Personne {
             console.log(`georges prend la route`);
             console.log(`georges est arrive a ${arrive.nom}`);  
             arrive.personne.push(this.nom);
-            depart.personne.pop();
-            depart.personne.splice(this);
+            depart.personne.splice(this.lieu);
         };
-        this.payerArticle = () => {
-            for (let index = 0; index <this.mainDroite.length; index++) {
-                const element = this.mainDroite[index];
-                this.argent = this.argent - element.prix
-                return this.argent
-            }
+        this.payerArticle = (el) => {
+                for (let index = 0; index <this.mainDroite.length; index++) {
+                    // Si perso a assez de money ! 
+                    if (this.argent >= el) {
+                         this.mainDroite[0].contenu.push(element)
+                        console.log(`${element.nom} pris`);
+                        const element = this.mainDroite[index];
+                        this.argent = this.argent - element.prix
+                        return this.argent
+                    } else {
+                        console.log('pas assez de money');
+                    }
+                    console.log(el);
+                }
 
-        };
+            };
         this.couper = () => {
             if (Ingredients.etat == "entier") {
                 Ingredients.etat = "coupe"
@@ -82,9 +89,12 @@ Ingredients = [oignon, oeuf, epice, fromage];
 
 let poele = {
     contenu : [],
+    //on recup l'objet omelette
     cuir(a){
         setTimeout(() => {
-            this.contenu = "cuit"
+            a.etat = "cuit"
+            console.log("votre omelette est cuite ");
+            console.log(bol);
         }, 4000);
     }
 }
@@ -96,7 +106,8 @@ let bol = {
              nom : nomPlat,
              etat : "pas cuit",
         }
-        this.contenu.push(newMelange);
+        // on réassigne le contenu par l'objet omelette
+        this.contenu = newMelange;
     },
 }
 
@@ -111,7 +122,7 @@ console.log("qui est a l'epicerie :" +" "+epicerie1.personne);
 
 //prendre panier
 personne1.mainDroite.push(epicerie1.panier[1]);
-epicerie1.panier.pop()
+
 console.log(`${personne1.nom} a pris un ${personne1.mainDroite[0].nom}`);
 console.log("voila le panier qui reste dans l'epicerie");
 console.log(epicerie1.panier);
@@ -120,18 +131,15 @@ console.log(epicerie1.panier);
 console.log("georges va prendre different ingredient :");
 for (let index = 0; index < Ingredients.length; index++) {
     const element = Ingredients[index];
+    console.log(Ingredients[index].etats);
+    personne1.payerArticle(element)
     personne1.mainDroite[0].contenu.push(element)
     console.log(`${element.nom} pris`);
+    // Envoie la méthode paye
 }
 console.log("voici le panier de"+" "+personne1.nom);
 console.log(personne1.mainDroite);
 
-
-
-// TODO payer article du panier 
-// console.log(personne1.argent);
-// personne1.payerArticle()
-// console.log(personne1.payerArticle());
 
 // rentrer a la maison
 personne1.seDeplacer(epicerie1, maison);
@@ -172,19 +180,19 @@ personne1.seDeplacer(epicerie1, maison)
 // couper Ingredients seulement si il est entier
 personne1.couper(bol.contenu)
 console.log(bol.contenu);
+for (let index = 0; index < tab.length; index++) {
+    const element = tab[index];
+    bol.contenu.etat.push(element)
+    console.log(`${element.etat} mis dans le bol`);
+}
 
 
 // melanger le bol
 bol.melanger("omelette")
-console.log(bol.contenu);
 
 // supprimer contenu du bol sauf l'ommelette
-bol.contenu.splice(0,5);
 console.log("voici le contenu du bol");
 console.log(bol.contenu);
 
 // cuire l'omelette
-
 poele.cuir(bol.contenu)
-console.log("votre omelette est cuite ");
-
